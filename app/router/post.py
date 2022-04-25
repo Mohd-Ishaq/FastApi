@@ -23,14 +23,14 @@ def creat(
     return crete_post
 
 
-@router.get("/all", response_model=List[resp])
+@router.get("/all", response_model=List[resp], current_user=Depends(get_current))
 def get_all(db: Session = Depends(get_db)):
     get_post = db.query(post).all()
     return get_post
 
 
 @router.get("/one/{id}")
-def get1(id: int, db: Session = Depends(get_db)):
+def get1(id: int, db: Session = Depends(get_db), current_user=Depends(get_current)):
     get1_post = db.query(post).filter(post.id == id)
     get_o = get1_post.first()
     return get_o

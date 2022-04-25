@@ -23,8 +23,8 @@ def creat(
     return crete_post
 
 
-@router.get("/all", response_model=List[resp], current_user=Depends(get_current))
-def get_all(db: Session = Depends(get_db)):
+@router.get("/all", response_model=List[resp])
+def get_all(db: Session = Depends(get_db), current_user=Depends(get_current)):
     get_post = db.query(post).all()
     return get_post
 

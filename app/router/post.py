@@ -13,7 +13,7 @@ router = APIRouter(prefix="/post", tags=["Posts"])
 
 
 @router.post("/")
-def creat(
+def create_post(
     request: post1, db: Session = Depends(get_db), current_user=Depends(get_current)
 ):
     crete_post = post(user_id=current_user.id, **request.dict())
@@ -24,20 +24,22 @@ def creat(
 
 
 @router.get("/all", response_model=List[resp])
-def get_all(db: Session = Depends(get_db), current_user=Depends(get_current)):
+def get_all_post(db: Session = Depends(get_db), current_user=Depends(get_current)):
     get_post = db.query(post).all()
     return get_post
 
 
 @router.get("/one/{id}")
-def get1(id: int, db: Session = Depends(get_db), current_user=Depends(get_current)):
+def get_post_by_id(
+    id: int, db: Session = Depends(get_db), current_user=Depends(get_current)
+):
     get1_post = db.query(post).filter(post.id == id)
     get_o = get1_post.first()
     return get_o
 
 
 @router.put("/{id}", response_model=resp)
-def post_upt(
+def update_post(
     id: int,
     request: post1,
     db: Session = Depends(get_db),
@@ -55,7 +57,9 @@ def post_upt(
 
 
 @router.delete("/delete/{id}")
-def delet(id: int, db: Session = Depends(get_db), current_user=Depends(get_current)):
+def delete_post(
+    id: int, db: Session = Depends(get_db), current_user=Depends(get_current)
+):
     delete = db.query(post).filter(post.id == id)
     delete_user = delete.first()
     if not delete_user:

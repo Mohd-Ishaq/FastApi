@@ -12,7 +12,7 @@ router = APIRouter(tags=["Users"])
 
 
 @router.get("/")
-def hell():
+def hello_world():
     return "hello world!"
 
 
@@ -31,13 +31,13 @@ def create_user(request: UserBase, db: Session = Depends(get_db)):
 
 
 @router.get("/user/all", response_model=List[UserOut])
-def get_user(db: Session = Depends(get_db)):
+def get_all_user(db: Session = Depends(get_db)):
     user = db.query(models.app).all()
     return user
 
 
 @router.get("/user/{id}", response_model=UserOut)
-def get_user(
+def get_user_by_id(
     id: int,
     db: Session = Depends(get_db),
 ):
@@ -52,7 +52,7 @@ def get_user(
 
 
 @router.put("/user/{id}", response_model=UserOut)
-def upd(
+def update_user(
     id: int,
     request: updat,
     db: Session = Depends(get_db),
@@ -71,7 +71,9 @@ def upd(
 
 
 @router.delete("/user/delete/{id}")
-def delt(id: int, db: Session = Depends(get_db), current_user=Depends(get_current)):
+def delete_user(
+    id: int, db: Session = Depends(get_db), current_user=Depends(get_current)
+):
     delete = db.query(models.app).filter(models.app.id == id)
     delete_user = delete.first()
     if not delete_user:
